@@ -22,14 +22,27 @@ export const baseApi = createApi({
       providesTags: ["todo"],
     }),
     addTodo: builder.mutation({
-      query: (data) => ({
-        url: "/task",
-        method: "POST",
-        body: data,
-      }),
+      query: (data) => {
+        return {
+          url: "/task",
+          method: "POST",
+          body: data,
+        };
+      },
+      invalidatesTags: ["todo"],
+    }),
+    updateTodo: builder.mutation({
+      query: (options) => {
+        return {
+          url: `/task/${options.id}`,
+          method: "PUT",
+          body: options.data,
+        };
+      },
       invalidatesTags: ["todo"],
     }),
   }),
 });
 
-export const { useGetTodosQuery, useAddTodoMutation } = baseApi;
+export const { useGetTodosQuery, useAddTodoMutation, useUpdateTodoMutation } =
+  baseApi;
