@@ -1,22 +1,48 @@
 import { Button } from "../ui/button";
+import { useAppDispatch } from "@/redux/hook";
+import { removeTodo, toggleComplete } from "@/redux/features/todoSlice";
+type TTodoCardProps = {
+  id: string;
+  title: string;
+  description: string;
+  isCompleted?: boolean;
+};
 
-const TodoCard = () => {
+const TodoCard = ({ title, description, id, isCompleted }: TTodoCardProps) => {
+  const dispatch = useAppDispatch();
+
+  const toggleState = () => {
+    dispatch(toggleComplete(id));
+  };
   return (
     <div className="flex justify-between rounded-xl p-3 bg-white font-semibold border">
-      <input type="checkbox" name="" id="" />
-      <p>Todo Title</p>
-      <p>Time</p>
-      <p>Description</p>
+      <input
+        onChange={toggleState}
+        type="checkbox"
+        name="complete"
+        id="complete"
+      />
+      <p>{title}</p>
+      <p>{description}</p>
+      <div>
+        {isCompleted ? (
+          <p className="text-green-500">Done</p>
+        ) : (
+          <p className="text-red-500">Pending</p>
+        )}
+      </div>
       <div className="flex gap-3">
-        <Button className="bg-red-500 p-2">
+        <Button
+          onClick={() => dispatch(removeTodo(id))}
+          className="bg-red-500 p-2"
+        >
           <svg
-            size-4
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 size-4"
           >
             <path
               strokeLinecap="round"
@@ -27,17 +53,16 @@ const TodoCard = () => {
         </Button>
         <Button className="bg-[#5C53FE] p-2">
           <svg
-            size-4
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
-            stroke-width="1.5"
+            strokeWidth="1.5"
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6  size-4"
           >
             <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
+              strokeLinecap="round"
+              strokeLinejoin="round"
               d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
             />
           </svg>
